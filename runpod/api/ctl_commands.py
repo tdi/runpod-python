@@ -1,6 +1,7 @@
 """
 RunPod | API Wrapper | CTL Commands
 """
+
 # pylint: disable=too-many-arguments,too-many-locals
 
 from typing import Optional
@@ -127,7 +128,7 @@ def create_pod(
 
     :example:
 
-    >>> pod_id = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
+    >>> pod = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
     """
     # Input Validation
     get_gpu(gpu_type_id)  # Check if GPU exists, will raise ValueError if not.
@@ -181,8 +182,8 @@ def stop_pod(pod_id: str):
 
     :example:
 
-    >>> pod_id = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
-    >>> runpod.stop_pod(pod_id)
+    >>> pod = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
+    >>> runpod.stop_pod(pod["id"])
     """
     raw_response = run_graphql_query(pod_mutations.generate_pod_stop_mutation(pod_id))
 
@@ -199,9 +200,9 @@ def resume_pod(pod_id: str, gpu_count: int):
 
     :example:
 
-    >>> pod_id = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
-    >>> runpod.stop_pod(pod_id)
-    >>> runpod.resume_pod(pod_id)
+    >>> pod = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
+    >>> runpod.stop_pod(pod["id"])
+    >>> runpod.resume_pod(pod["id"])
     """
     raw_response = run_graphql_query(
         pod_mutations.generate_pod_resume_mutation(pod_id, gpu_count)
@@ -219,8 +220,8 @@ def terminate_pod(pod_id: str):
 
     :example:
 
-    >>> pod_id = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
-    >>> runpod.terminate_pod(pod_id)
+    >>> pod = runpod.create_pod("test", "runpod/stack", "NVIDIA GeForce RTX 3070")
+    >>> runpod.terminate_pod(pod["id"])
     """
     run_graphql_query(pod_mutations.generate_pod_terminate_mutation(pod_id))
 
